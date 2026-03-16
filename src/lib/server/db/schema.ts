@@ -17,7 +17,7 @@ export const tenants = pgTable('tenants', {
 	expireAt: timestamp({ withTimezone: true, precision: 0 })
 });
 
-export const tenantUsers = pgTable('tenantUsers', {
+export const tenantUsers = pgTable('tenant-users', {
 	userId: uuid()
 		.notNull()
 		.references(() => users.id, { onDelete: 'cascade' }),
