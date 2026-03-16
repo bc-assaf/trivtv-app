@@ -42,7 +42,7 @@ export const actions = {
             password: formData.get('password') as string,
             options: {
                 data: {
-                    displayName: 'display name',
+                    displayName: formData.get('display-name') as string,
                 },
                 emailRedirectTo: 'https://trivtv.com/admin',
             },

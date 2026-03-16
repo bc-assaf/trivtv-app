@@ -1,15 +1,54 @@
 {
-  "id": "708529b9-311e-4b8e-ad00-14a8353e68a7",
+  "id": "65e1fe84-f9fb-424b-b027-1004d6dd887d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.tenant-users": {
-      "name": "tenant-users",
+    "public.profiles": {
+      "name": "profiles",
       "schema": "",
       "columns": {
-        "userId": {
-          "name": "userId",
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "displayName": {
+          "name": "displayName",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "profiles_email_unique": {
+          "name": "profiles_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.tenant-profiles": {
+      "name": "tenant-profiles",
+      "schema": "",
+      "columns": {
+        "profileId": {
+          "name": "profileId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -37,12 +76,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "tenant-users_userId_users_id_fk": {
-          "name": "tenant-users_userId_users_id_fk",
-          "tableFrom": "tenant-users",
-          "tableTo": "users",
+        "tenant-profiles_profileId_profiles_id_fk": {
+          "name": "tenant-profiles_profileId_profiles_id_fk",
+          "tableFrom": "tenant-profiles",
+          "tableTo": "profiles",
           "columnsFrom": [
-            "userId"
+            "profileId"
           ],
           "columnsTo": [
             "id"
@@ -50,9 +89,9 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "tenant-users_tenantId_tenants_id_fk": {
-          "name": "tenant-users_tenantId_tenants_id_fk",
-          "tableFrom": "tenant-users",
+        "tenant-profiles_tenantId_tenants_id_fk": {
+          "name": "tenant-profiles_tenantId_tenants_id_fk",
+          "tableFrom": "tenant-profiles",
           "tableTo": "tenants",
           "columnsFrom": [
             "tenantId"
@@ -65,10 +104,10 @@
         }
       },
       "compositePrimaryKeys": {
-        "tenant-users_userId_tenantId_pk": {
-          "name": "tenant-users_userId_tenantId_pk",
+        "tenant-profiles_profileId_tenantId_pk": {
+          "name": "tenant-profiles_profileId_tenantId_pk",
           "columns": [
-            "userId",
+            "profileId",
             "tenantId"
           ]
         }
@@ -91,7 +130,7 @@
         },
         "displayName": {
           "name": "displayName",
-          "type": "varchar(50)",
+          "type": "varchar(60)",
           "primaryKey": false,
           "notNull": true
         },
@@ -123,10 +162,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "tenants_ownerId_users_id_fk": {
-          "name": "tenants_ownerId_users_id_fk",
+        "tenants_ownerId_profiles_id_fk": {
+          "name": "tenants_ownerId_profiles_id_fk",
           "tableFrom": "tenants",
-          "tableTo": "users",
+          "tableTo": "profiles",
           "columnsFrom": [
             "ownerId"
           ],
@@ -139,46 +178,6 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.users": {
-      "name": "users",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "displayName": {
-          "name": "displayName",
-          "type": "varchar(40)",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "users_email_unique": {
-          "name": "users_email_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
-        }
-      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
