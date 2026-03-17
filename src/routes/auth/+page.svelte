@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { page } from '$app/state';
+	import { AppBar } from '@skeletonlabs/skeleton-svelte';
 
 	let { form } = $props();
 
@@ -15,14 +16,11 @@
 	});
 </script>
 
-<header class="bg-surface-100-900-token border-surface-200-800-token border-b px-4 py-3">
-	<div class="container mx-auto flex items-center justify-between">
-		<!-- Logo -->
-		<div class="flex items-center space-x-2">
-			<h1 class="text-xl font-bold text-primary-500"><a href="/">TrivTV</a></h1>
-		</div>
-	</div>
-</header>
+<AppBar>
+	<AppBar.Lead>
+		<strong class="text-xl"><a href="/">TrivTV</a></strong>
+	</AppBar.Lead>
+</AppBar>
 {#if mode === 'signup'}
 	<div class="m-20 mx-auto max-w-md space-y-4 card preset-outlined-primary-500 p-4">
 		<h3 class="h3">Sign Up</h3>

@@ -9,11 +9,7 @@ export const load: LayoutServerLoad = async ({ locals }) => {
         redirect(303, '/auth?mode=login');
     }
 
-    console.log('cp1', user);
-
-    const userRecord = await getOrCreateUserRecord(locals.supabase, user);
-
-
+    const userRecord = await getOrCreateUserRecord(user);
 
     // Optionally return session data if needed by child routes
     return { user, session: locals.session };

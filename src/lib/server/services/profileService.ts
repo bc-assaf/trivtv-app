@@ -3,7 +3,7 @@ import { profiles, tenants, tenantProfiles } from '$lib/db/schema';
 import type { SupabaseClient, User } from '@supabase/supabase-js';
 import { eq } from 'drizzle-orm'
 
-export const getOrCreateUserRecord = async (supabase: SupabaseClient, user: User) => {
+export const getOrCreateUserRecord = async (user: User) => {
     const [userRecord] = await db.select()
         .from(profiles)
         .leftJoin(tenants, eq(tenants.ownerId, profiles.id))
@@ -11,7 +11,9 @@ export const getOrCreateUserRecord = async (supabase: SupabaseClient, user: User
 
     console.debug('in getOrCreateUserRecord', userRecord)
 
-    if (userRecord && userRecord.tenants) return { profile: userRecord, tenant: [userRecord.tenants] }
+    if (userRecord && userRecord.tenants) {
+        return { profile: userRecord, tenant: [userRecord.tenants] }
+    }
 
     if (!user.id || !user.email || !user.user_metadata?.displayName) {
         throw new Error('User id, email, or displayName is missing');

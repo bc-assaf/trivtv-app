@@ -1,15 +1,3 @@
-<!-- App Bar -->
-<header class="bg-surface-100-900-token border-surface-200-800-token border-b px-4 py-3">
-	<div class="container mx-auto flex items-center justify-between">
-		<!-- Logo -->
-		<div class="flex items-center space-x-2">
-			<h1 class="text-xl font-bold text-primary-500">TrivTV</h1>
-		</div>
-		<!-- Login Button -->
-		<a href="/auth" class="btn preset-filled-primary-500">Login</a>
-	</div>
-</header>
-
 <!-- Hero Section -->
 <section class="container mx-auto px-4 py-16 text-center">
 	<h1 class="text-surface-900-50-token mb-4 text-4xl font-bold md:text-6xl">Welcome to TrivTV</h1>
