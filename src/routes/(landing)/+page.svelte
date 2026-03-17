@@ -6,7 +6,7 @@
 		facts, compete with friends, and become a trivia master!
 	</p>
 	<div class="flex flex-col justify-center gap-4 sm:flex-row">
-		<a href="/auth" class="btn preset-filled-primary-500 px-8 py-3 text-lg"> Get Started </a>
+		<a href="/auth/signup" class="btn preset-filled-primary-500 px-8 py-3 text-lg"> Get Started </a>
 		<button class="btn preset-outlined-surface-500 px-8 py-3 text-lg"> Learn More </button>
 	</div>
 </section>

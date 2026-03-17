@@ -8,5 +8,5 @@ export const POST: RequestHandler = async ({ locals }) => {
         throw error(500, "Something went wrong logging you out.")
     }
 
-    throw redirect(303, "/auth?mode=login")
+    throw redirect(303, "/auth/login")
 }

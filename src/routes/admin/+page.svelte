@@ -3,7 +3,7 @@
 </script>
 
 <h1>Hello, this is Admin home</h1>
-<a href="/auth">Login</a>
+<a href="/auth/login">Login</a>
 
 {data.user.email}
 {data.user.user_metadata.displayName}
