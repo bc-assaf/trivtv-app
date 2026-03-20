@@ -13,8 +13,8 @@
 			<p></p>
 		</AppBar.Headline>
 		<AppBar.Trail>
-			<a class="btn hover:preset-tonal" href="/admin">Dashboard</a>
-			<a class="btn hover:preset-tonal" href="/admin/tvs">TVs & Devices</a>
+			<a class="btn hover:preset-tonal" href="/dashboard">Dashboard</a>
+			<a class="btn hover:preset-tonal" href="/dashboard/tvs">TVs & Devices</a>
 			<form method="POST" action="/logout">
 				<button type="submit" class="btn preset-outlined-primary-500">Logout</button>
 			</form>

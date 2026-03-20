@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	let { data } = $props();
 	let { form, errors, constraints, enhance } = $derived(superForm(data.form));

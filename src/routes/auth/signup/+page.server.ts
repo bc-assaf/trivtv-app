@@ -1,6 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { AuthApiError } from '@supabase/supabase-js';
 import * as v from 'valibot'
 import { setError, superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
@@ -20,9 +19,9 @@ const signupSchema = v.pipe(
 
 export const load: PageServerLoad = async ({ locals }) => {
     const { data: { session } } = await locals.supabase.auth.getSession();
-    // trying to access the auth page while signed in -> go to /admin
+    // trying to access the auth page while signed in -> go to /dashboard
     if (session) {
-        throw redirect(303, '/admin');
+        throw redirect(303, '/dashboard');
     }
 
     const form = await superValidate(valibot(signupSchema));

@@ -18,7 +18,7 @@
 			<a class="btn hover:preset-tonal" href="/docs">Docs</a>
 			<a class="btn hover:preset-tonal" href="/contact">Contact</a>
 			{#if data.user}
-				<a href="/admin" class="btn preset-filled-primary-500">Dashboard</a>
+				<a href="/dashboard" class="btn preset-filled-primary-500">Dashboard</a>
 			{:else}
 				<a href="/auth/login" class="btn preset-filled-primary-500">Login</a>
 			{/if}

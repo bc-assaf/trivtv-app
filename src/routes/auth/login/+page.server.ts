@@ -12,9 +12,9 @@ const loginSchema = v.object({
 
 export const load: PageServerLoad = async ({ locals }) => {
     const { data: { session } } = await locals.supabase.auth.getSession();
-    // trying to access the auth page while signed in -> go to /admin
+    // trying to access the auth page while signed in -> go to /dashboard
     if (session) {
-        throw redirect(303, '/admin');
+        throw redirect(303, '/dashboard');
     }
     const form = await superValidate(valibot(loginSchema));
 
@@ -47,6 +47,6 @@ export const actions = {
             }
         }
 
-        redirect(303, "/admin")
+        redirect(303, "/dashboard")
     },
 } satisfies Actions;

@@ -1,29 +1,38 @@
 import { db } from '$lib/db';
-import { profiles, tenants, tenantProfiles } from '$lib/db/schema';
-import type { SupabaseClient, User } from '@supabase/supabase-js';
+import { profiles, tenants, tenantProfiles, displays } from '$lib/db/schema';
+import type { UserRecord } from '$lib/types/user-record';
+import type { User } from '@supabase/supabase-js';
 import { eq } from 'drizzle-orm'
 
-export const getOrCreateUserRecord = async (user: User) => {
-    const [userRecord] = await db.select()
+
+export const getOrCreateUserRecord = async (user: User): Promise<UserRecord | undefined> => {
+    if (!user.id || !user.email || !user.user_metadata?.displayName) {
+        throw new Error('User id, email, or displayName is missing');
+    }
+
+    const [result] = await db
+        .select()
         .from(profiles)
         .leftJoin(tenants, eq(tenants.ownerId, profiles.id))
         .where(eq(profiles.id, user.id))
+        .limit(1)
 
-    console.debug('in getOrCreateUserRecord', userRecord)
+    const profile = result.profiles;
+    const tenant = result.tenants; // This is typed as 'Tenant | null' because of the left join
 
-    if (userRecord && userRecord.tenants) {
-        return { profile: userRecord, tenant: [userRecord.tenants] }
-    }
-
-    if (!user.id || !user.email || !user.user_metadata?.displayName) {
-        throw new Error('User id, email, or displayName is missing');
+    if (profile && tenant) return {
+        userId: user.id,
+        email: user.email,
+        displayName: profile.displayName,
+        tenantId: tenant.id,
+        tenantName: tenant.displayName
     }
 
     const expireAt = new Date()
     expireAt.setDate(expireAt.getDate() + 14)
 
-    if (userRecord && !userRecord.tenants) {
-        const tx = await db.transaction(async (tx) => {
+    if (profile && !tenant) {
+        await db.transaction(async (tx) => {
             // Create only tenant
             const [newTenant] = await tx.insert(tenants)
                 .values({
@@ -42,7 +51,23 @@ export const getOrCreateUserRecord = async (user: User) => {
                 })
                 .returning()
 
-            return { profile: userRecord, tenant: newTenant }
+            await tx.insert(displays)
+                .values({
+                    tenantId: newTenant.id,
+                    displayName: 'TV no. 1',
+                    status: 'offline',
+                    statusDate: new Date()
+                })
+                .returning()
+
+
+            return {
+                userId: user.id,
+                email: user.email,
+                displayName: profile.displayName,
+                tenantId: newTenant.id,
+                tenantName: newTenant.displayName
+            }
         })
     } else {
         // Create both user and tenant
@@ -71,7 +96,22 @@ export const getOrCreateUserRecord = async (user: User) => {
                 })
                 .returning()
 
-            return { profile: newProfile, tenant: newTenant }
+            await tx.insert(displays)
+                .values({
+                    tenantId: newTenant.id,
+                    displayName: 'TV no. 1',
+                    status: 'offline',
+                    statusDate: new Date()
+                })
+                .returning()
+
+            return {
+                userId: user.id,
+                email: user.email,
+                displayName: profile.displayName,
+                tenantId: newTenant.id,
+                tenantName: newTenant.displayName
+            }
         })
     }
 }
