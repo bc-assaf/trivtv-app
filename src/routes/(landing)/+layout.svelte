@@ -17,11 +17,12 @@
 			<a class="btn hover:preset-tonal" href="/pricing">Pricing</a>
 			<a class="btn hover:preset-tonal" href="/docs">Docs</a>
 			<a class="btn hover:preset-tonal" href="/contact">Contact</a>
-			{#if data.user}
+			<!-- {#if data.userRecord}
 				<a href="/dashboard" class="btn preset-filled-primary-500">Dashboard</a>
 			{:else}
 				<a href="/auth/login" class="btn preset-filled-primary-500">Login</a>
-			{/if}
+			{/if} -->
+			<a href="/dashboard" class="btn preset-filled-primary-500">Dashboard</a>
 		</AppBar.Trail>
 	</AppBar.Toolbar>
 </AppBar>

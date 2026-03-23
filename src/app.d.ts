@@ -11,13 +11,14 @@ declare global {
 		interface Locals {
 			supabase: SupabaseClient<Database>
 			safeGetSession: () => Promise<{ session: Session | null; user: User | null }>
-			session: Session | null
-			user: User | null
-			userRecord: UserRecord | null
+			// session: Session | null
+			// user: User | null
+			// userRecord: UserRecord | null
 		}
 		interface PageData {
 			// session: Session | null
-			user: User | null
+			// user: User | null
+			userRecord: UserRecord
 
 		}
 		// interface PageState {}

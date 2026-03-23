@@ -15,6 +15,27 @@
       "when": 1773903239953,
       "tag": "0001_small_freak",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774250223993,
+      "tag": "0002_slow_peter_parker",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1774250878843,
+      "tag": "0003_breezy_mojo",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1774256238043,
+      "tag": "0004_ambitious_sugar_man",
+      "breakpoints": true
     }
   ]
 }

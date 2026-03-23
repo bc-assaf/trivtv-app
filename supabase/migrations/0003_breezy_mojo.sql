@@ -1,0 +1,1 @@
+ALTER TABLE "display-pairing-request" DROP COLUMN "expiresAt";

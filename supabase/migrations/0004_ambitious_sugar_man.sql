@@ -1,0 +1,1 @@
+ALTER TABLE "display-pairing-request" RENAME COLUMN "createAt" TO "createdAt";

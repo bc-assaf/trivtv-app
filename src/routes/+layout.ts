@@ -1,8 +1,7 @@
 import { PUBLIC_SUPABASE_PUBLISHABLE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createBrowserClient, isBrowser } from '@supabase/ssr';
-import type { LayoutLoad } from './$types';
 
-export const load: LayoutLoad = async ({ fetch, data, depends }) => {
+export const load = async ({ fetch, data, depends }) => {
     depends('supabase:auth');
 
     const supabase = createBrowserClient(
@@ -24,7 +23,6 @@ export const load: LayoutLoad = async ({ fetch, data, depends }) => {
         },
     });
 
-    const { data: { session } } = await supabase.auth.getSession();
-
-    return { supabase, session, user: data.user };
+    // Make the supabase client available in all child pages data
+    return { supabase };
 };

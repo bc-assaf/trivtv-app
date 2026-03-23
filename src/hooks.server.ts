@@ -10,7 +10,8 @@ import { error, type Handle } from '@sveltejs/kit'
 */
 
 export const handle: Handle = async ({ event, resolve }) => {
-    if (event.request.url.startsWith('/tv') || event.request.url.startsWith('/play')) { return resolve(event) }
+    const pathName = new URL(event.request.url).pathname
+    console.log('handle', pathName)
 
     event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY, {
         cookies: {
@@ -51,14 +52,6 @@ export const handle: Handle = async ({ event, resolve }) => {
             return { session: null, user: null }
         }
         return { session, user }
-    }
-
-    if (!event.request.url.startsWith('/api')) {
-        const session = await event.locals.safeGetSession()
-        if (!session.user) {
-            console.error("/api access unauthorized")
-            throw error(401, 'Unauthorized');
-        }
     }
 
     return resolve(event, {

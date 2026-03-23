@@ -1,6 +1,7 @@
 import { error, type ServerLoad } from '@sveltejs/kit';
 import { db } from '$lib/db';
 import { displayPairingRequest } from '$lib/db/schema';
+import { sql } from 'drizzle-orm';
 
 export const load: ServerLoad = async ({ cookies, locals: { supabase }, request, getClientAddress }) => {
     // find a unique pairing code
@@ -25,25 +26,19 @@ export const load: ServerLoad = async ({ cookies, locals: { supabase }, request,
                 id: pairingRequestId,
                 pairingCode: paringCode,
                 ipAddress: getClientAddress(),
+                status: 'pending',
             }).onConflictDoUpdate({
                 target: [displayPairingRequest.id],
                 set: {
                     pairingCode: paringCode,
                     ipAddress: getClientAddress(),
+                    status: 'pending',
+                    createdAt: sql`now()`
                 }
             })
     } catch (e) {
         error(500, `Failed to create pairing request ${e}`)
     }
-
-    // const { data, error: err } = await supabase
-    //     .from('display-pairing-request')
-    //     .upsert({
-    //         id: pairingRequestId,
-    //         pairingCode: paringCode,
-    //         ipAddress: getClientAddress(),
-    //     }, { onConflict: 'id' })
-    //     .select()
 
     cookies.set('pairingRequestId', pairingRequestId ?? '', {
         path: '/',

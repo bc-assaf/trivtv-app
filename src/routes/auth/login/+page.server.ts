@@ -10,10 +10,11 @@ const loginSchema = v.object({
     password: v.pipe(v.string('Password is required'), v.minLength(1, 'Password is required')),
 });
 
-export const load: PageServerLoad = async ({ locals }) => {
-    const { data: { session } } = await locals.supabase.auth.getSession();
+export const load = async ({ locals }) => {
+    const session = await locals.safeGetSession();
+
     // trying to access the auth page while signed in -> go to /dashboard
-    if (session) {
+    if (session?.user) {
         throw redirect(303, '/dashboard');
     }
     const form = await superValidate(valibot(loginSchema));

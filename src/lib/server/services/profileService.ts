@@ -17,8 +17,8 @@ export const getOrCreateUserRecord = async (user: User): Promise<UserRecord | un
         .where(eq(profiles.id, user.id))
         .limit(1)
 
-    const profile = result.profiles;
-    const tenant = result.tenants; // This is typed as 'Tenant | null' because of the left join
+    const profile = result?.profiles;
+    const tenant = result?.tenants; // This is typed as 'Tenant | null' because of the left join
 
     if (profile && tenant) return {
         userId: user.id,
@@ -70,7 +70,7 @@ export const getOrCreateUserRecord = async (user: User): Promise<UserRecord | un
             }
         })
     } else {
-        // Create both user and tenant
+        // Create both profile and tenant
         const tx = await db.transaction(async (tx) => {
             const [newProfile] = await tx.insert(profiles)
                 .values({
@@ -108,7 +108,7 @@ export const getOrCreateUserRecord = async (user: User): Promise<UserRecord | un
             return {
                 userId: user.id,
                 email: user.email,
-                displayName: profile.displayName,
+                displayName: newProfile.displayName,
                 tenantId: newTenant.id,
                 tenantName: newTenant.displayName
             }

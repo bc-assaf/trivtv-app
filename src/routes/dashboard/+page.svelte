@@ -2,10 +2,13 @@
 	let { data } = $props();
 </script>
 
-<h1>Hello, this is Admin home</h1>
-<a href="/auth/login">Login</a>
+<h1 class="h1">Welcome to TrivTV 👋</h1>
 
-{data.user.email}
-{data.user.user_metadata.displayName}
+<p>
+	{data.userRecord?.email}
+</p>
 
-<pre>{JSON.stringify(data.user, null, 2)}</pre>
+<div>
+	User Record:
+	<pre>{JSON.stringify(data.userRecord, null, 2)}</pre>
+</div>

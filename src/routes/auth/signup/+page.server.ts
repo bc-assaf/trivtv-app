@@ -1,5 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
+import type { Actions } from './$types';
 import * as v from 'valibot'
 import { setError, superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
@@ -17,10 +17,11 @@ const signupSchema = v.pipe(
 );
 
 
-export const load: PageServerLoad = async ({ locals }) => {
-    const { data: { session } } = await locals.supabase.auth.getSession();
+export const load = async ({ locals }) => {
+    const session = await locals.safeGetSession();
+
     // trying to access the auth page while signed in -> go to /dashboard
-    if (session) {
+    if (session?.user) {
         throw redirect(303, '/dashboard');
     }
 

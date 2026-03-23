@@ -1,12 +1,5 @@
-import type { LayoutServerLoad } from './$types';
-
-export const load: LayoutServerLoad = async ({ locals: { safeGetSession }, cookies }) => {
-    const { session, user } = await safeGetSession();
-
+export const load = async ({ cookies }) => {
     return {
-        session,
-        user,
-        // We pass cookies here so the client-side hydrate can stay in sync
         cookies: cookies.getAll(),
     };
 };

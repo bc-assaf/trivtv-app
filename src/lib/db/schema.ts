@@ -1,3 +1,4 @@
+import { time } from 'console';
 import { pgTable, uuid, varchar, timestamp, primaryKey, uniqueIndex } from 'drizzle-orm/pg-core';
 
 export const profiles = pgTable('profiles', {
@@ -34,16 +35,19 @@ export const displays = pgTable('displays', {
 	id: uuid().primaryKey().defaultRandom(),
 	tenantId: uuid().notNull().references(() => tenants.id, { onDelete: 'cascade' }),
 	displayName: varchar({ length: 40 }).notNull(),
-	status: varchar({ length: 20 }).notNull(),
+	status: varchar({ length: 20 }).notNull().default('offline'), // offline / paired / connected
 	statusDate: timestamp({ withTimezone: true, precision: 0 }).notNull(),
 	channelId: varchar({ length: 50 }),
+	pairingRequestId: uuid().references(() => displayPairingRequest.id),
+	sessionKey: uuid(),
 })
 
 export const displayPairingRequest = pgTable('display-pairing-request', {
 	id: uuid().primaryKey().defaultRandom(),
 	pairingCode: varchar({ length: 10 }).notNull(),
 	ipAddress: varchar({ length: 20 }).notNull(),
-	createAt: timestamp({ withTimezone: true, precision: 0 }).notNull().defaultNow()
+	createdAt: timestamp({ withTimezone: true, precision: 0 }).notNull().defaultNow(),
+	status: varchar({ length: 20 }).notNull().default('pending'), // pending / paired / claimed
 }, (t) => [
 	uniqueIndex('ux_pairing_code').on(t.pairingCode)
 ])
