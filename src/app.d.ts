@@ -16,7 +16,7 @@ declare global {
 			// userProfile: UserProfile | null
 		}
 		interface PageData {
-			// session: Session | null
+			session: Session | null
 			// user: User | null
 			userProfile: UserProfile
 
