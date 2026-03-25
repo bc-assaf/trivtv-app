@@ -36,6 +36,7 @@
 				bind:value={$form.displayName}
 				{...$constraints.displayName}
 				class:input-error={$errors.displayName}
+				autocomplete="new-password"
 			/>
 			{#if $errors.displayName}
 				<span class="text-sm text-error-500">{$errors.displayName[0]}</span>

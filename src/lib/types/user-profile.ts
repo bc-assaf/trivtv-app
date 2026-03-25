@@ -1,5 +1,5 @@
 
-export type UserRecord = {
+export type UserProfile = {
     userId: string
     email: string
     displayName: string

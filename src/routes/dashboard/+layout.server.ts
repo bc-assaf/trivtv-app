@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { getOrCreateUserRecord } from '$lib/server/services/profileService';
+import { getOrCreateUserProfile } from '$lib/server/services/profileService';
 import { error } from 'console';
 
 export const load = async ({ locals }) => {
@@ -9,12 +9,12 @@ export const load = async ({ locals }) => {
         redirect(303, '/auth/login');
     }
 
-    const userRecord = await getOrCreateUserRecord(session.user);
+    const userProfile = await getOrCreateUserProfile(session.user);
 
-    if (!userRecord) {
+    if (!userProfile) {
         error(500, 'Something went wrong')
         return
     }
     // Optionally return session data if needed by child routes
-    return { userRecord };
+    return { userProfile: userProfile };
 };

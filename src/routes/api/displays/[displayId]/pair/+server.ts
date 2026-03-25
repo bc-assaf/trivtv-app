@@ -8,7 +8,7 @@ import { eq } from 'drizzle-orm';
 export const POST: RequestHandler = async ({ params, request, locals }) => {
     const user = (await locals.safeGetSession()).user
     if (!user) {
-        error(401)
+        error(401, 'Unauthorized')
     }
     const { displayId } = params;
     const body = await request.json();

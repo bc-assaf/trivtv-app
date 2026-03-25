@@ -3,6 +3,8 @@ import type { Actions } from './$types';
 import * as v from 'valibot'
 import { setError, superValidate } from 'sveltekit-superforms';
 import { valibot } from 'sveltekit-superforms/adapters';
+import { invalidateAll } from '$app/navigation';
+import { getOrCreateUserProfile } from '$lib/server/services/profileService.js';
 
 const signupSchema = v.pipe(
     v.object({
@@ -54,6 +56,10 @@ export const actions = {
             return setError(form, '', 'Sign up failed. ' + error.message);
         }
 
+        const profile = await getOrCreateUserProfile(data.user!)
+        if (profile) {
+            console.debug('Created profile:', profile)
+        }
         redirect(303, "/dashboard")
     }
 

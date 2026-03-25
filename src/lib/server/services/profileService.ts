@@ -1,11 +1,11 @@
 import { db } from '$lib/db';
 import { profiles, tenants, tenantProfiles, displays } from '$lib/db/schema';
-import type { UserRecord } from '$lib/types/user-record';
+import type { UserProfile } from '$lib/types/user-profile';
 import type { User } from '@supabase/supabase-js';
 import { eq } from 'drizzle-orm'
 
 
-export const getOrCreateUserRecord = async (user: User): Promise<UserRecord | undefined> => {
+export const getOrCreateUserProfile = async (user: User): Promise<UserProfile | undefined> => {
     if (!user.id || !user.email || !user.user_metadata?.displayName) {
         throw new Error('User id, email, or displayName is missing');
     }
